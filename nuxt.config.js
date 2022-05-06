@@ -13,4 +13,8 @@ export default {
     },
   },
   css: ['@/assets/css/main.css'],
+  target: 'static',
+  router: {
+    base: '/rsamuel12.github.io/',
+  },
 };
