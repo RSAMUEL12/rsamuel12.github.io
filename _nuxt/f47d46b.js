@@ -1,1 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[3],{204:function(n,e,t){"use strict";t.r(e);var l=t(39),component=Object(l.a)({},(function(){var n=this,e=n.$createElement;return(n._self._c||e)("h1",{staticClass:"text-3xl font-bold underline"},[n._v("Rohan Samuel")])}),[],!1,null,null,null);e.default=component.exports}}]);
