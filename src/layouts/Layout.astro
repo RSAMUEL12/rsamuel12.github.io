@@ -12,6 +12,7 @@ const { title } = Astro.props;
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 	</head>
@@ -26,8 +27,23 @@ const { title } = Astro.props;
 	}
 	html {
 		font-family: system-ui, sans-serif;
-		background-color: #F6F6F6;
+		@apply bg-primary
 	}
+
+	h1, h2, h3, h4, p {
+		font-family: "Open Sans", sans-serif;
+		@apply text-secondary
+	}
+
+	a {
+		font-family: "Open Sans", sans-serif;
+		@apply text-secondary font-extrabold hover:text-tertiary cursor-pointer
+	}
+
+	strong {
+		@apply text-tertiary cursor-pointer
+	}
+
 	code {
 		font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
 			Bitstream Vera Sans Mono, Courier New, monospace;
