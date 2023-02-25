@@ -1,81 +1,79 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Card from '../components/Card.astro';
+import Layout from "../layouts/Layout.astro";
+import { Client } from "@notionhq/client";
+import { Image } from "@astrojs/image/components";
+
+export const prerender = true;
+
+const notion = new Client({ auth: import.meta.env.NOTION_KEY });
+const databaseId = import.meta.env.NOTION_DATABASE_ID;
+
+// get blog posts
+const response = await notion.databases.query({
+  database_id: databaseId ?? "",
+});
+
+// get page content
+const blocks = await notion.blocks.children.list({
+  block_id: "f41e48cd67074fc397fb6dd39cd711d7",
+});
+
+const posts = response.results;
+
+// console.log(response.results[0]);
 ---
 
-<Layout title="Welcome to Astro.">
-	<main>
-		<h1>Welcome to <span class="text-gradient">Astro</span></h1>
-		<p class="instructions">
-			To get started, open the directory <code>src/pages</code> in your project.<br />
-			<strong>Code Challenge:</strong> Tweak the "Welcome to Astro" message above.
-		</p>
-		<ul role="list" class="link-card-grid">
-			<Card
-				href="https://docs.astro.build/"
-				title="Documentation"
-				body="Learn how Astro works and explore the official API docs."
-			/>
-			<Card
-				href="https://astro.build/integrations/"
-				title="Integrations"
-				body="Supercharge your project with new frameworks and libraries."
-			/>
-			<Card
-				href="https://astro.build/themes/"
-				title="Themes"
-				body="Explore a galaxy of community-built starter themes."
-			/>
-			<Card
-				href="https://astro.build/chat/"
-				title="Community"
-				body="Come say hi to our amazing Discord community. ❤️"
-			/>
-		</ul>
-	</main>
+<Layout title="Home Page">
+  <main>
+    <div class="flex flex-row justify-between p-5">
+      <div class="flex flex-col w-[147px] h-[73px] items-center justify-center">
+        <h4 class="font-extrabold text-3xl tracking-widest leading-7">Rohan</h4>
+        <h4 class="font-extrabold text-3xl tracking-normal leading-7">
+          Samuel
+        </h4>
+      </div>
+      <nav class="flex flex-row items-center space-x-10">
+        <a>Projects</a>
+        <a>Tech</a>
+        <a>Blog</a>
+      </nav>
+    </div>
+    <section class="w-screen px-20 sm:px-40 md:px-56 mb-20">
+      <div class="w-3/6">
+        <h1 class="font-extrabold text-6xl tracking-tight leading-[3rem]">
+          Full Stack Developer
+        </h1>
+        <p class="mt-5 text-xl font-normal">
+          I develop full stack applications with React, Vue and TypeScript. You
+          can view my projects <strong>here.</strong>
+        </p>
+      </div>
+    </section>
+    <section class="w-screen px-20 sm:px-40 md:px-56">
+      {
+        posts.map((post) => {
+          return (
+            <div class="flex flex-col lg:flex-row ">
+              <div class="flex flex-col justify-center">
+                <h1 class="font-extrabold text-4xl tracking-tight">
+                  {post.properties.Name.title[0].plain_text}
+                </h1>
+                <h1>{post.properties.Description.rich_text[0].plain_text}</h1>
+              </div>
+              <div class="w-fit h-fit m-5 flex items-center justify-center">
+                <Image
+                  src={post.cover.file.url}
+                  format="jpg"
+                  alt="blog"
+                  width={450}
+                  aspectRatio={1 / 1}
+                  class="transition duration-500 hover:scale-110 cursor-pointer"
+                />
+              </div>
+            </div>
+          );
+        })
+      }
+    </section>
+  </main>
 </Layout>
-
-<style>
-	main {
-		margin: auto;
-		padding: 1.5rem;
-		max-width: 60ch;
-	}
-	h1 {
-		font-size: 3rem;
-		font-weight: 800;
-		margin: 0;
-	}
-	.text-gradient {
-		background-image: var(--accent-gradient);
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-size: 400%;
-		background-position: 0%;
-	}
-	.instructions {
-		line-height: 1.6;
-		margin: 1rem 0;
-		border: 1px solid rgba(var(--accent), 25%);
-		background-color: white;
-		padding: 1rem;
-		border-radius: 0.4rem;
-	}
-	.instructions code {
-		font-size: 0.875em;
-		font-weight: bold;
-		background: rgba(var(--accent), 12%);
-		color: rgb(var(--accent));
-		border-radius: 4px;
-		padding: 0.3em 0.45em;
-	}
-	.instructions strong {
-		color: rgb(var(--accent));
-	}
-	.link-card-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
-		gap: 1rem;
-		padding: 0;
-	}
-</style>
