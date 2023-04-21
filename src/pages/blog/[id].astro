@@ -1,0 +1,37 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getBlogContent } from "../../utils/notion";
+
+const { id } = Astro.params;
+
+const content = await getBlogContent(id ?? "");
+
+console.log(content);
+---
+
+<Layout title="Blog Page">
+  <main>
+    <div class="flex flex-row justify-between p-5">
+      <div class="flex flex-col w-[147px] h-[73px] items-center justify-center">
+        <h4 class="font-extrabold text-3xl tracking-widest leading-7">Rohan</h4>
+        <h4 class="font-extrabold text-3xl tracking-normal leading-7">
+          Samuel
+        </h4>
+      </div>
+      <nav class="flex flex-row items-center space-x-10">
+        <a>Projects</a>
+        <a>Tech</a>
+        <a>Blog</a>
+      </nav>
+    </div>
+    {
+      content.results.map((block) => (
+        <section class="w-screen px-20 sm:px-40 md:px-56 mb-20">
+          <div>
+            <p>{block.type}</p>
+          </div>
+        </section>
+      ))
+    }
+  </main>
+</Layout>
