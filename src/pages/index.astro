@@ -47,16 +47,15 @@ const posts = await getBlogPosts();
                 <h1>{post.properties.Description.rich_text[0].plain_text}</h1>
               </div>
               <div class="w-fit h-fit m-5 flex items-center justify-center">
-                <a href={`/blog/${post.id}`}>
-                  <Image
-                    src={post.cover.file.url}
-                    format="jpg"
-                    alt="blog"
-                    width={450}
-                    aspectRatio={1 / 1}
-                    class="transition duration-500 hover:scale-110 cursor-pointer"
-                  />
-                </a>
+                <Image
+                  src={post.cover.file.url}
+                  format="jpg"
+                  alt="blog"
+                  width={450}
+                  height={450}
+                  aspectRatio={1 / 1}
+                  class="transition duration-500 hover:scale-110 cursor-pointer"
+                />
               </div>
             </div>
           );
