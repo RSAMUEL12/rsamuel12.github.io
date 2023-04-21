@@ -1,3 +1,7 @@
 {
+  "compilerOptions": {
+    // Replace `astro/client` with `@astrojs/image/client`
+    "types": ["@astrojs/image/client"]
+  },
   "extends": "astro/tsconfigs/strict"
 }
