@@ -1,26 +1,12 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { Client } from "@notionhq/client";
 import { Image } from "@astrojs/image/components";
+import { getBlogPosts } from "../utils/notion";
 
 export const prerender = true;
 
-const notion = new Client({ auth: import.meta.env.NOTION_KEY });
-const databaseId = import.meta.env.NOTION_DATABASE_ID;
-
 // get blog posts
-const response = await notion.databases.query({
-  database_id: databaseId ?? "",
-});
-
-// get page content
-const blocks = await notion.blocks.children.list({
-  block_id: "f41e48cd67074fc397fb6dd39cd711d7",
-});
-
-const posts = response.results;
-
-// console.log(response.results[0]);
+const posts = await getBlogPosts();
 ---
 
 <Layout title="Home Page">
@@ -51,7 +37,7 @@ const posts = response.results;
     </section>
     <section class="w-screen px-20 sm:px-40 md:px-56">
       {
-        posts.map((post) => {
+        posts.results.map((post) => {
           return (
             <div class="flex flex-col lg:flex-row ">
               <div class="flex flex-col justify-center">
@@ -66,6 +52,7 @@ const posts = response.results;
                   format="jpg"
                   alt="blog"
                   width={450}
+                  height={450}
                   aspectRatio={1 / 1}
                   class="transition duration-500 hover:scale-110 cursor-pointer"
                 />
