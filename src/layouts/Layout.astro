@@ -1,6 +1,6 @@
 ---
 export interface Props {
-	title: string;
+  title: string;
 }
 
 const { title } = Astro.props;
@@ -8,44 +8,107 @@ const { title } = Astro.props;
 
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
+    />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <div class="flex flex-row justify-between p-5">
+      <a href="/">
+        <div
+          class="flex flex-col w-[147px] h-[73px] items-center justify-center"
+        >
+          <h4 class="font-extrabold text-3xl tracking-widest leading-7">
+            Rohan
+          </h4>
+          <h4 class="font-extrabold text-3xl tracking-normal leading-7">
+            Samuel
+          </h4>
+        </div>
+      </a>
+      <nav class="flex flex-row items-center space-x-10">
+        <a href="https://github.com/RSAMUEL12">Projects</a>
+        <a class="cursor-not-allowed">Tech</a>
+        <a class="cursor-not-allowed">Blog</a>
+      </nav>
+    </div>
+    <section class="w-screen px-20 md:px-56 py-10">
+      <slot />
+    </section>
+  </body>
 </html>
 <style is:global>
-	:root {
-		--accent: 124, 58, 237;
-		--accent-gradient: linear-gradient(45deg, rgb(var(--accent)), #da62c4 30%, white 60%);
-	}
-	html {
-		font-family: system-ui, sans-serif;
-		@apply bg-primary
-	}
+  :root {
+    --accent: 124, 58, 237;
+    --accent-gradient: linear-gradient(
+      45deg,
+      rgb(var(--accent)),
+      #da62c4 30%,
+      white 60%
+    );
+  }
+  html {
+    font-family: system-ui, sans-serif;
+    @apply bg-primary;
+  }
 
-	h1, h2, h3, h4, p {
-		font-family: "Open Sans", sans-serif;
-		@apply text-secondary
-	}
+  h1,
+  h2,
+  h3,
+  h4,
+  p {
+    font-family: "Open Sans", sans-serif;
+    @apply text-secondary leading-7;
+  }
 
-	a {
-		font-family: "Open Sans", sans-serif;
-		@apply text-secondary font-extrabold hover:text-tertiary cursor-pointer
-	}
+  h1 {
+    @apply font-extrabold text-4xl tracking-tight py-5;
+  }
 
-	strong {
-		@apply text-tertiary cursor-pointer
-	}
+  h2 {
+    @apply font-extrabold text-2xl tracking-tight py-3;
+  }
 
-	code {
-		font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
-			Bitstream Vera Sans Mono, Courier New, monospace;
-	}
+  h3 {
+    @apply font-extrabold text-xl tracking-tight py-2;
+  }
+
+  a {
+    font-family: "Open Sans", sans-serif;
+    @apply text-secondary font-extrabold hover:text-tertiary cursor-pointer;
+  }
+
+  ol {
+    @apply list-decimal list-inside;
+  }
+
+  ul {
+    @apply list-disc;
+  }
+
+  ol,
+  ul {
+    @apply text-secondary ml-3;
+  }
+
+  strong {
+    @apply text-tertiary cursor-pointer;
+  }
+
+  pre {
+    @apply my-5 p-4 rounded-md;
+  }
+
+  code {
+    font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
+      DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
+  }
 </style>
