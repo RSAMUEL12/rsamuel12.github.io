@@ -5,61 +5,58 @@ import { getBlogPosts } from "../utils/notion";
 
 export const prerender = true;
 
-// get blog posts
-const posts = await getBlogPosts();
+const mdPosts = await Astro.glob("../pages/posts/*.md");
+const nonDraftPosts = mdPosts.filter((post) => !post.frontmatter.draft);
 ---
 
 <Layout title="Home Page">
   <main>
-    <div class="flex flex-row justify-between p-5">
-      <div class="flex flex-col w-[147px] h-[73px] items-center justify-center">
-        <h4 class="font-extrabold text-3xl tracking-widest leading-7">Rohan</h4>
-        <h4 class="font-extrabold text-3xl tracking-normal leading-7">
-          Samuel
-        </h4>
-      </div>
-      <nav class="flex flex-row items-center space-x-10">
-        <a>Projects</a>
-        <a>Tech</a>
-        <a>Blog</a>
-      </nav>
-    </div>
-    <section class="w-screen px-20 sm:px-40 md:px-56 mb-20">
-      <div class="w-3/6">
+    <section>
+      <div class="w-full lg:w-3/6">
         <h1 class="font-extrabold text-6xl tracking-tight leading-[3rem]">
           Full Stack Developer
         </h1>
         <p class="mt-5 text-xl font-normal">
           I develop full stack applications with React, Vue and TypeScript. You
-          can view my projects <strong>here.</strong>
+          can view my projects <a href="https://github.com/RSAMUEL12">here.</a>
         </p>
       </div>
     </section>
-    <section class="w-screen px-20 sm:px-40 md:px-56">
+    <section>
       {
-        posts.results.map((post) => {
-          return (
+        mdPosts.map((post) => (
+          <li>
             <div class="flex flex-col lg:flex-row ">
-              <div class="flex flex-col justify-center">
-                <h1 class="font-extrabold text-4xl tracking-tight">
-                  {post.properties.Name.title[0].plain_text}
+              <div class="flex flex-col justify-center pr-5">
+                <h1 class="font-extrabold text-4xl tracking-tight pt-0">
+                  {post.frontmatter.title}
                 </h1>
-                <h1>{post.properties.Description.rich_text[0].plain_text}</h1>
+                <p class="text-subheading">
+                  {new Date(post.frontmatter.pubDate).toLocaleDateString(
+                    "en-GB",
+                    {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    }
+                  )}
+                </p>
+                <p class="text-subheading">{post.frontmatter.description}</p>
               </div>
-              <div class="w-fit h-fit m-5 flex items-center justify-center">
+              <a href={post.url}>
                 <Image
-                  src={post.cover.file.url}
-                  format="jpg"
+                  src={post.frontmatter.image.url}
+                  format="png"
                   alt="blog"
-                  width={450}
-                  height={450}
+                  width={400}
+                  height={400}
                   aspectRatio={1 / 1}
-                  class="transition duration-500 hover:scale-110 cursor-pointer"
+                  class="transition duration-500 hover:scale-110 cursor-pointer rounded-lg"
                 />
-              </div>
+              </a>
             </div>
-          );
-        })
+          </li>
+        ))
       }
     </section>
   </main>
